@@ -67,7 +67,7 @@ async function handleRequest(request) {
   }
   // get token
   if (url.pathname == "/v2/auth") {
-    const newUrl = new URL(upstream + "/v2/");
+    const newUrl = new URL(upstream + "/v2/auth");
     const resp = await fetch(newUrl.toString(), {
       method: "GET",
       redirect: "follow",
