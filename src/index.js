@@ -41,7 +41,7 @@ async function handleRequest(request) {
     const newUrl = new URL(upstream + "/v2/");
     const authorization = request.headers.get("Authorization");
     const copyHeaders = new Headers();
-    if(authorization){
+    if(authorization !== null){
       copyHeaders.set("Authorization",authorization);
     }
     const resp = await fetch(newUrl.toString(), {
