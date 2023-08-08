@@ -40,11 +40,14 @@ async function handleRequest(request) {
   if (url.pathname == "/v2/") {
     const newUrl = new URL(upstream + "/v2/");
     const authorization = request.headers.get("Authorization");
-
+    const copyHeaders = new Headers();
+    if(authorization){
+      copyHeaders.set("Authorization",authorization);
+    }
     const resp = await fetch(newUrl.toString(), {
       method: "GET",
       redirect: "follow",
-      headers: {"Authorization":authorization}
+      headers: copyHeaders,
     });
     if (resp.status === 200) {
     } else if (resp.status === 401) {
