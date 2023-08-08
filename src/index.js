@@ -80,7 +80,8 @@ async function handleRequest(request) {
       return resp;
     }
     const wwwAuthenticate = parseAuthenticate(authenticateStr);
-    return await fetchToken(wwwAuthenticate, url.searchParams);
+    const authorization = request.headers.get("Authorization");
+    return await fetchToken(wwwAuthenticate, url.searchParams,authorization);
   }
   // foward requests
   const newUrl = new URL(upstream + url.pathname);
@@ -106,7 +107,7 @@ function parseAuthenticate(authenticateStr) {
   };
 }
 
-async function fetchToken(wwwAuthenticate, searchParams) {
+async function fetchToken(wwwAuthenticate, searchParams,authorization) {
   const url = new URL(wwwAuthenticate.realm);
   if (wwwAuthenticate.service.length) {
     url.searchParams.set("service", wwwAuthenticate.service);
@@ -114,5 +115,5 @@ async function fetchToken(wwwAuthenticate, searchParams) {
   if (searchParams.get("scope")) {
     url.searchParams.set("scope", searchParams.get("scope"));
   }
-  return await fetch(url, { method: "GET", headers: {} });
+  return await fetch(url, { method: "GET", headers: {"Authorization":authorization} });
 }
