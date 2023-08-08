@@ -39,9 +39,12 @@ async function handleRequest(request) {
   // check if need to authenticate
   if (url.pathname == "/v2/") {
     const newUrl = new URL(upstream + "/v2/");
+    const authorization = request.headers.get("Authorization");
+
     const resp = await fetch(newUrl.toString(), {
       method: "GET",
       redirect: "follow",
+      headers: {"Authorization":authorization}
     });
     if (resp.status === 200) {
     } else if (resp.status === 401) {
