@@ -78,11 +78,7 @@ async function handleRequest(request) {
     }else{
         // foward requests
         const newUrl = new URL(upstream + url.pathname);
-        const newReq = new Request(newUrl, {
-            method: request.method,
-            headers: request.headers,
-            redirect: "follow",
-        });
+        const newReq = new Request(newUrl, request);
         return await fetch(newReq);
     }
 }
